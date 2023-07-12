@@ -768,7 +768,8 @@ class BaseWSGIServer(HTTPServer):
                             file=sys.stderr,
                         )
 
-                sys.exit(1)
+                e.args = e.args + f"Port {port} is in use by another program."
+                raise e.with_traceback(e.__traceback__)
             except BaseException:
                 self.server_close()
                 raise
